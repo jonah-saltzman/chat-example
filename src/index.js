@@ -5,33 +5,13 @@ const Room = require('./room')
 const app = express()
 const server = http.createServer(app)
 
-module.exports = server
+const SocketIO = require('./room')
 
-const IoServ = Room.create(server)
+const IoServ = SocketIO.create(server)
 
-IoServ.events.on('new-user', (socket) => {
-    console.log('user joined')
-    console.log(socket.rooms)
-})
-
-IoServ.events.on('join', async (req, socket) => {
-    console.log('request to join')
-    await socket.join(req.roomId.toString())
-    IoServ.send('test', req.roomId.toString())
-    IoServ.send('test', 'jonahs-room')
-    users.forEach(socket => socket.emit('new user!'))
-})
-
-// IoServ.events.
-// IoServ.addListener('new-user', (socket) => {
-// 	console.log('new user!')
-// 	console.log(socket)
-// 	socket.join(rooms[0])
-// })
-
+module.exports = IoServ
 
 const rooms = []
-const users = []
 
 app.get(
     '/newroom/:name',

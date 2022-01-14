@@ -1,16 +1,18 @@
 const { Server } = require('socket.io')
 const Emitter = require('events')
+const Socket = require('./socket')
 
-class Room {
+class IoServer {
 	#server
 	socket
 	constructor(server) {
 		this.events = new Emitter()
 		this.#server = new Server(server)
 		this.#server.on('connection', (socket) => {
-			this.events.emit('new-user', socket)
-			console.log(socket.rooms)
-			this.socket = socket
+            console.log('new connection')
+            const newSocket = new Socket(socket)
+            console.log('created socket instance with id: ', newSocket.userId)
+			this.events.emit('new-connection', newSocket)
 			socket.on('chat message', (msg) => {
 				console.log('message: ', msg.message)
 				socket.emit('chat message', msg.message)
@@ -20,6 +22,7 @@ class Room {
 				this.events.emit('join', req, socket)
 			})
 		})
+        this.events.emit('server-created')
 	}
 	static create(server) {
 		const newServer = new this(server)
@@ -42,4 +45,4 @@ class Room {
 	}
 }
 
-module.exports = Room
+module.exports = IoServer
