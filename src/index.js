@@ -14,9 +14,12 @@ IoServ.events.on('new-user', (socket) => {
     console.log(socket.rooms)
 })
 
-IoServ.events.on('join', (req) => {
+IoServ.events.on('join', async (req, socket) => {
     console.log('request to join')
-    console.log(req)
+    await socket.join(req.roomId.toString())
+    IoServ.send('test', req.roomId.toString())
+    IoServ.send('test', 'jonahs-room')
+    users.forEach(socket => socket.emit('new user!'))
 })
 
 // IoServ.events.
@@ -28,12 +31,14 @@ IoServ.events.on('join', (req) => {
 
 
 const rooms = []
+const users = []
 
 app.get(
     '/newroom/:name',
     (req, res) => {
         console.log('creating room named: ', req.params.name)
-        if (rooms.some(room => room.name === req.params.name)) {
+        console.log(rooms)
+        if (rooms.some(room => room === req.params.name)) {
             console.log('room already exists')
             res.status(400).json({error: 'Room already exists'})
             return

@@ -11,12 +11,11 @@ class Room {
             this.socket = socket
             socket.on('chat message', (msg) => {
                 console.log('message: ', msg.message)
-                console.log(this.roomId)
                 socket.emit('chat message', msg.message)
             })
             socket.on('join', (req) => {
                 console.log('hit join')
-                this.events.emit('join', req)
+                this.events.emit('join', req, socket)
             })
         })
     }
@@ -34,6 +33,10 @@ class Room {
     addListener(string, fn) {
         console.log('adding listener')
         this.server.on(string, fn)
+    }
+    send(msg, to) {
+        console.log('sending message ', msg, ' to ', to)
+        this.server.to(to).emit('chat message', msg)
     }
     server
     socket
