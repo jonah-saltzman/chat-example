@@ -25,6 +25,7 @@
 <script>
   var socket = io();
     socket.emit('join', {roomId: 123})
+    socket.emit('login', {token: '1231u2yh3gg127i3'})
   var form = document.getElementById('form');
   var input = document.getElementById('input');
 

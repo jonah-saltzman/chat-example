@@ -2,11 +2,12 @@ const express = require('express')
 const http = require('http')
 const Room = require('./room')
 
+// Initialize express
 const app = express()
 const server = http.createServer(app)
 
+// 
 const SocketIO = require('./room')
-
 const IoServ = SocketIO.create(server)
 
 module.exports = IoServ

@@ -5,6 +5,7 @@ class Socket {
         this.socket = socket
         this.userId = 'test123'
         this.#addListeners()
+        this.authenticated = false
     }
     #addListeners() {
         this.socket.on('chat message', msg => {
@@ -12,6 +13,11 @@ class Socket {
             console.log('from socket: ', this.userId)
         })
     }
+    login(token) {
+        // check token with jwt
+        // if (valid) this.authenticated = true
+    }
+    authenti
 }
 
 module.exports = Socket

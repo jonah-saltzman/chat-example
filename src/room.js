@@ -2,6 +2,7 @@ const { Server } = require('socket.io')
 const Emitter = require('events')
 const Socket = require('./socket')
 
+
 class IoServer {
 	#server
 	socket
@@ -13,6 +14,8 @@ class IoServer {
             const newSocket = new Socket(socket)
             console.log('created socket instance with id: ', newSocket.userId)
 			this.events.emit('new-connection', newSocket)
+
+            // These listeners will go in Socket class, not server class
 			socket.on('chat message', (msg) => {
 				console.log('message: ', msg.message)
 				socket.emit('chat message', msg.message)
