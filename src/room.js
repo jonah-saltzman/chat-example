@@ -9,6 +9,8 @@ class IoServer {
 	constructor(server) {
 		this.events = new Emitter()
 		this.#server = new Server(server)
+
+        // Later
 		this.#server.on('connection', (socket) => {
             console.log('new connection')
             const newSocket = new Socket(socket)

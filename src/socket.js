@@ -1,6 +1,6 @@
 
 
-class Socket {
+class UserSocket {
     constructor(socket) {
         this.socket = socket
         this.userId = 'test123'

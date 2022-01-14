@@ -8,10 +8,8 @@ const connected = []
 
 IoServ.events.on('new-connection', (socket) => {
 	console.log('user joined')
-	const newSocket = new Socket(socket)
     console.log('socket connected: ')
-    console.log(newSocket.userId)
-    connected.push(newSocket)
+    connected.push(socket)
 })
 
 IoServ.events.on('join', async (req, socket) => {
